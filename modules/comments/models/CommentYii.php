@@ -198,10 +198,9 @@ class CommentYii extends DaActiveRecord {
   }
 
   public function beforeValidate() {
-    if ($this->id_user === null && Yii::app()->user->isGuest === false) {
-      $this->id_user = Yii::app()->user->id;
-    }
-    return parent::beforeValidate();
+    $event=new CModelEvent($this);
+    $this->onBeforeValidate($event);
+    return $event->isValid;
   }
 
   /*
